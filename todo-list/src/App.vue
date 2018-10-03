@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img class="photo" src="https://i.servimg.com/u/f57/18/63/39/86/ol10.gif">
+    
     <HelloWorld/>
   </div>
 </template>
