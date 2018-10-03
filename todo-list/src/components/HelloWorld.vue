@@ -18,11 +18,11 @@
       <ul>
         <li v-for="personName of names" v-bind:key="personName['.key']">
           <div class="row" v-if="!personName.edit">
-            <div class="col mt-5" v-bind:class="{ 'check': item.state, 'c-white': !item.state	}">
+            <div class="col mt-5">
               <p>{{ personName.name }} </p>
             </div>
-            <i class="glyphicon glyphicon-ok mt-5 mr-3" aria-hidden="true"></i>
-            <i class="glyphicon glyphicon-remove mt-5 mr-3" @click="removePerson(personName['.key'])"></i>
+            <i class="glyphicon glyphicon-ok mt-5 mr-5" aria-hidden="true"></i>
+            <i class="glyphicon glyphicon-remove mt-5 mr-5" @click="removePerson(personName['.key'])"></i>
             <i class="glyphicon glyphicon-pencil mt-5" @click="editPerson(personName['.key'])"></i>
 
           </div>
@@ -47,14 +47,15 @@ export default {
   name: 'app',
   data () {
     return {
-      name: '',
-      check: ''
+      name: ''
     }
   },
   methods:{
     submitName(){
-      namesRef.push({name : this.name
-                    ,edit : false});
+      namesRef.push({
+        name : this.name,
+        edit : false
+      })
       this.name = '';
     },
     refresh(){
@@ -73,12 +74,12 @@ export default {
       namesRef.child(key).set({
         name: person.name,
         edit: false
-      });
+      })
     },
     cancelEdit(key){
       namesRef.child(key).update({
         edit: false
-      });
+      })
     }
   },
   firebase:{
