@@ -5,7 +5,7 @@
       <form>
         <div class="row">
           <div class="col">
-            <input type="text" class="form-control" placeholder="Los ingredientes son ..." v-model="name">
+            <input type="text" class="form-control" placeholder="Los ingredientes son ..." @keyup.enter="submitName()" v-model="name">
           </div>
           <!-- <div> -->
             <i class="glyphicon glyphicon-plus mr-5" @click="submitName()"></i>
@@ -19,9 +19,9 @@
         <li v-for="personName of names" v-bind:key="personName['.key']">
           <div class="row" v-if="!personName.edit">
             <div class="col mt-5">
-              <p>{{ personName.name }} </p>
+              <p :id="personName['.key']+'completar'" v-bind:class="{ completado: personName.completado }">{{ personName.name }} </p>
             </div>
-            <i class="glyphicon glyphicon-ok mt-5 mr-5" aria-hidden="true"></i>
+            <i class="glyphicon glyphicon-ok mt-5 mr-5" aria-hidden="true" @click="completar(personName['.key'])"></i>
             <i class="glyphicon glyphicon-remove mt-5 mr-5" @click="removePerson(personName['.key'])"></i>
             <i class="glyphicon glyphicon-pencil mt-5" @click="editPerson(personName['.key'])"></i>
 
@@ -47,7 +47,8 @@ export default {
   name: 'app',
   data () {
     return {
-      name: ''
+      name: '',
+      completado: false
     }
   },
   methods:{
@@ -80,6 +81,10 @@ export default {
       namesRef.child(key).update({
         edit: false
       })
+    },
+    completar (key) {
+      // document.getElementById(personName['.key']+'completar').style.text-decoration = 'line-through'
+      this.completado = !this.completado
     }
   },
   firebase:{
@@ -90,6 +95,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.completado{
+  text-decoration: line-through;
+}
 h1, h2 {
   font-weight: normal;
 }
