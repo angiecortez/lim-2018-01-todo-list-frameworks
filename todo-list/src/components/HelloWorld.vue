@@ -16,12 +16,12 @@
 
     <div>
       <ul>
-        <li v-for="personName of names" v-bind:key="personName['.key']">
+        <li v-for="(personName, index) of names" v-bind:key="personName['.key']">
           <div class="row" v-if="!personName.edit">
             <div class="col mt-5">
-              <p :id="personName['.key']+'completar'" v-bind:class="{ completado: personName.completado }">{{ personName.name }} </p>
+              <p :id="personName.name + '_' + index">{{ personName.name }} </p>
             </div>
-            <i class="glyphicon glyphicon-ok mt-5 mr-5" aria-hidden="true" @click="completar(personName['.key'])"></i>
+            <i class="glyphicon glyphicon-ok mt-5 mr-5" aria-hidden="true" @click="completar(personName.name + '_' + index)"></i>
             <i class="glyphicon glyphicon-remove mt-5 mr-5" @click="removePerson(personName['.key'])"></i>
             <i class="glyphicon glyphicon-pencil mt-5" @click="editPerson(personName['.key'])"></i>
 
@@ -82,10 +82,13 @@ export default {
         edit: false
       })
     },
-    completar (key) {
-      // document.getElementById(personName['.key']+'completar').style.text-decoration = 'line-through'
-      this.completado = !this.completado
-    }
+    completar (person) {
+      if (document.getElementById(person).classList.contains('completado')) {
+        document.getElementById(person).classList.remove('completado')
+      } else {
+        document.getElementById(person).setAttribute('class', 'completado')
+      }
+    },
   },
   firebase:{
     names : namesRef
